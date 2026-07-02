@@ -10,6 +10,7 @@
 class Skill {
 public:
     explicit Skill(const std::string& name, int proficiencyLevel);
+    Skill(int id, const std::string& name, int proficiencyLevel);
     ~Skill();
 
     // Assign the technical role — marks this skill as belonging to the technical subtype.
@@ -23,11 +24,13 @@ public:
     bool isTechnical() const;   // true if technical role is set
     bool isSoft()      const;   // true if soft role is set
 
+    int                getId()              const;
     const std::string& getName()             const;
     int                getProficiencyLevel() const;
     void print() const;
 
 private:
+    int         id_ = 0;
     std::string name_;
     int         proficiencyLevel_;          // 1–5
     ITechnical* technicalRole_ = nullptr;   // nullptr = not a technical skill
