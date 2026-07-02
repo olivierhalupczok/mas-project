@@ -7,6 +7,13 @@ PortfolioEntry::PortfolioEntry(const std::string& projectName,
     : MediaAttachment(filePath, mimeType), RatableItem(rating, reviewCount),  // both parent ctors
       projectName_(projectName) {}
 
+PortfolioEntry::PortfolioEntry(int id, const std::string& projectName,
+                                const std::string& filePath, const std::string& mimeType,
+                                int rating, int reviewCount)
+    : MediaAttachment(filePath, mimeType), RatableItem(rating, reviewCount),
+      id_(id), projectName_(projectName) {}
+
+int                PortfolioEntry::getId()          const { return id_; }
 const std::string& PortfolioEntry::getProjectName() const { return projectName_; }
 
 void PortfolioEntry::print() const {

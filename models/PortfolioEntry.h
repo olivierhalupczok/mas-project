@@ -12,10 +12,15 @@ public:
     PortfolioEntry(const std::string& projectName,
                    const std::string& filePath, const std::string& mimeType,
                    int rating, int reviewCount);
+    PortfolioEntry(int id, const std::string& projectName,
+                   const std::string& filePath, const std::string& mimeType,
+                   int rating, int reviewCount);
 
+    int                getId()          const;
     const std::string& getProjectName() const;
     void print() const;
 
 private:
+    int         id_ = 0;
     std::string projectName_;
 };
