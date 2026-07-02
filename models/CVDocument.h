@@ -1,21 +1,38 @@
 #pragma once
 #include <string>
+#include <vector>
 
-// Common virtual base for the multi-aspect CV hierarchy.
-// Virtual inheritance prevents a duplicate CVDocument subobject when
-// DigitalEnglishCV inherits from both DigitalCV and EnglishCV (diamond topology).
-// Each axis overrides one pure virtual method; the concrete class provides both.
+class CVSection;
+
+// Composition: CVDocument owns its CVSections.
+// Sections are created via factory methods — they cannot be constructed independently.
+// format and language are plain string attributes (multi-aspect hierarchy dropped).
 class CVDocument {
 public:
-    explicit CVDocument(const std::string& ownerName);
-    virtual ~CVDocument() = default;
+    CVDocument(int id, const std::string& ownerName,
+               const std::string& format, const std::string& language);
+    ~CVDocument();
 
-    virtual std::string getFormatLabel()   const = 0;  // overridden by the format axis
-    virtual std::string getLanguageLabel() const = 0;  // overridden by the language axis
-
+    int getId()                       const;
     const std::string& getOwnerName() const;
-    void print() const;
+    const std::string& getFormat()    const;
+    const std::string& getLanguage()  const;
 
-protected:
+    // Factory methods enforce composition: sections belong to this document.
+    CVSection* addWorkExperience(const std::string& title, const std::string& company,
+                                  const std::string& period, const std::string& description);
+    CVSection* addEducation(const std::string& title, const std::string& institution,
+                             const std::string& degree, int graduationYear);
+    CVSection* addVolunteerWork(const std::string& title, const std::string& organization,
+                                 const std::string& cause);
+
+    const std::vector<CVSection*>& getSections() const;
+    void renderAll() const;  // polymorphic dispatch to each section
+
+private:
+    int         id_;
     std::string ownerName_;
+    std::string format_;
+    std::string language_;
+    std::vector<CVSection*> sections_;  // owned parts (composition)
 };

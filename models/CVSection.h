@@ -5,8 +5,8 @@
 // Declares pure virtual render() — subclasses MUST override it.
 // CVSection cannot be instantiated directly (abstract class).
 class CVSection {
+    friend class CVDocument;  // only CVDocument's factory methods may construct sections
 public:
-    explicit CVSection(const std::string& title);
     virtual ~CVSection() = default;
 
     // Pure virtual method — forces each subclass to implement its own rendering.
@@ -19,5 +19,6 @@ public:
     const std::string& getTitle() const;
 
 protected:
+    explicit CVSection(const std::string& title);
     std::string title_;
 };
