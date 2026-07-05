@@ -12,6 +12,7 @@ public:
     std::string getType() const override;
 
     const std::string& getOrganization() const;
+    const std::string& getCause()        const;
 
 private:
     std::string organization_;

@@ -12,8 +12,9 @@ public:
     void render() const override;           // polymorphic override
     std::string getType() const override;
 
-    const std::string& getInstitution() const;
-    const std::string& getDegree()      const;
+    const std::string& getInstitution()  const;
+    const std::string& getDegree()       const;
+    int                getGraduationYear() const;
 
 private:
     std::string institution_;

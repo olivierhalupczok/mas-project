@@ -10,5 +10,6 @@ void VolunteerWork::render() const {
               << "\n  Cause: " << cause_ << "\n";
 }
 
-std::string VolunteerWork::getType()           const { return "VolunteerWork"; }
+std::string VolunteerWork::getType()              const { return "VolunteerWork"; }
 const std::string& VolunteerWork::getOrganization() const { return organization_; }
+const std::string& VolunteerWork::getCause()        const { return cause_; }

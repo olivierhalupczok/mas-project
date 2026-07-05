@@ -12,6 +12,7 @@ void Education::render() const {
               << "  " << title_ << "\n";
 }
 
-std::string Education::getType()          const { return "Education"; }
+std::string Education::getType()               const { return "Education"; }
 const std::string& Education::getInstitution() const { return institution_; }
 const std::string& Education::getDegree()      const { return degree_; }
+int                Education::getGraduationYear() const { return graduationYear_; }

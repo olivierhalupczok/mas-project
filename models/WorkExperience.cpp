@@ -12,5 +12,6 @@ void WorkExperience::render() const {
 }
 
 std::string WorkExperience::getType() const { return "WorkExperience"; }
-const std::string& WorkExperience::getCompany() const { return company_; }
-const std::string& WorkExperience::getPeriod()  const { return period_; }
+const std::string& WorkExperience::getCompany()      const { return company_; }
+const std::string& WorkExperience::getPeriod()       const { return period_; }
+const std::string& WorkExperience::getDescription()  const { return description_; }

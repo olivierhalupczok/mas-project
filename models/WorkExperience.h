@@ -12,8 +12,9 @@ public:
     void render() const override;           // polymorphic override of CVSection::render()
     std::string getType() const override;
 
-    const std::string& getCompany() const;
-    const std::string& getPeriod()  const;
+    const std::string& getCompany()      const;
+    const std::string& getPeriod()       const;
+    const std::string& getDescription()  const;
 
 private:
     std::string company_;
