@@ -5,7 +5,6 @@
 class Candidate;
 
 // Binary association 1..*: one Recruiter manages many Candidates.
-// Both sides updated automatically in assign().
 class Recruiter {
 public:
     Recruiter(int id, const std::string& name, const std::string& email);
