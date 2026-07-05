@@ -3,7 +3,7 @@ CONFIG += c++17
 TARGET = RecruitmentManager
 TEMPLATE = app
 
-INCLUDEPATH += . third_party
+INCLUDEPATH += . utils
 
 SOURCES += main.cpp \
     models/Candidate.cpp \

@@ -1,0 +1,97 @@
+#include "Database.h"
+
+auto makeStorage(const std::string& path) {
+    return make_storage(path,
+        make_table("companies",
+            make_column("id",       &CompanyRecord::id,       autoincrement(), primary_key()),
+            make_column("name",     &CompanyRecord::name),
+            make_column("street",   &CompanyRecord::street),
+            make_column("city",     &CompanyRecord::city),
+            make_column("country",  &CompanyRecord::country),
+            make_column("industry", &CompanyRecord::industry)),
+        make_table("recruiters",
+            make_column("id",         &RecruiterRecord::id,         autoincrement(), primary_key()),
+            make_column("name",       &RecruiterRecord::name),
+            make_column("email",      &RecruiterRecord::email),
+            make_column("company_id", &RecruiterRecord::companyId)),
+        make_table("candidates",
+            make_column("id",     &CandidateRecord::id,     autoincrement(), primary_key()),
+            make_column("name",   &CandidateRecord::name),
+            make_column("email",  &CandidateRecord::email),
+            make_column("phone",  &CandidateRecord::phone),
+            make_column("status", &CandidateRecord::status)),
+        make_table("job_postings",
+            make_column("id",           &JobPostingRecord::id,          autoincrement(), primary_key()),
+            make_column("title",        &JobPostingRecord::title),
+            make_column("description",  &JobPostingRecord::description),
+            make_column("salary_min",   &JobPostingRecord::salaryMin),
+            make_column("salary_max",   &JobPostingRecord::salaryMax),
+            make_column("company_id",   &JobPostingRecord::companyId),
+            make_column("recruiter_id", &JobPostingRecord::recruiterId)),
+        make_table("applications",
+            make_column("id",              &ApplicationRecord::id,            autoincrement(), primary_key()),
+            make_column("candidate_id",    &ApplicationRecord::candidateId),
+            make_column("job_posting_id",  &ApplicationRecord::jobPostingId),
+            make_column("applied_at",      &ApplicationRecord::appliedAt),
+            make_column("cover_letter",    &ApplicationRecord::coverLetter)),
+        make_table("interviews",
+            make_column("id",             &InterviewRecord::id,             autoincrement(), primary_key()),
+            make_column("application_id", &InterviewRecord::applicationId),
+            make_column("scheduled_at",   &InterviewRecord::scheduledAt),
+            make_column("location",       &InterviewRecord::location),
+            make_column("notes",          &InterviewRecord::notes)),
+        make_table("cv_documents",
+            make_column("id",           &CVDocumentRecord::id,           autoincrement(), primary_key()),
+            make_column("owner_name",   &CVDocumentRecord::ownerName),
+            make_column("format",       &CVDocumentRecord::format),
+            make_column("language",     &CVDocumentRecord::language),
+            make_column("candidate_id", &CVDocumentRecord::candidateId)),
+        make_table("cv_sections",
+            make_column("id",              &CVSectionRecord::id,             autoincrement(), primary_key()),
+            make_column("type",            &CVSectionRecord::type),
+            make_column("title",           &CVSectionRecord::title),
+            make_column("cv_document_id",  &CVSectionRecord::cvDocumentId),
+            make_column("company",         &CVSectionRecord::company),
+            make_column("period",          &CVSectionRecord::period),
+            make_column("description",     &CVSectionRecord::description),
+            make_column("institution",     &CVSectionRecord::institution),
+            make_column("degree",          &CVSectionRecord::degree),
+            make_column("graduation_year", &CVSectionRecord::graduationYear),
+            make_column("organization",    &CVSectionRecord::organization),
+            make_column("cause",           &CVSectionRecord::cause)),
+        make_table("skills",
+            make_column("id",                 &SkillRecord::id,                 autoincrement(), primary_key()),
+            make_column("name",               &SkillRecord::name),
+            make_column("proficiency_level",  &SkillRecord::proficiencyLevel),
+            make_column("is_technical",       &SkillRecord::isTechnical),
+            make_column("technical_category", &SkillRecord::technicalCategory),
+            make_column("is_soft",            &SkillRecord::isSoft),
+            make_column("soft_category",      &SkillRecord::softCategory),
+            make_column("candidate_id",       &SkillRecord::candidateId)),
+        make_table("portfolio_entries",
+            make_column("id",           &PortfolioEntryRecord::id,           autoincrement(), primary_key()),
+            make_column("project_name", &PortfolioEntryRecord::projectName),
+            make_column("file_path",    &PortfolioEntryRecord::filePath),
+            make_column("mime_type",    &PortfolioEntryRecord::mimeType),
+            make_column("rating",       &PortfolioEntryRecord::rating),
+            make_column("review_count", &PortfolioEntryRecord::reviewCount),
+            make_column("candidate_id", &PortfolioEntryRecord::candidateId)),
+        make_table("recruiter_candidates",
+            make_column("recruiter_id", &RecruiterCandidateRecord::recruiterId),
+            make_column("candidate_id", &RecruiterCandidateRecord::candidateId),
+            primary_key(&RecruiterCandidateRecord::recruiterId,
+                        &RecruiterCandidateRecord::candidateId))
+    );
+}
+
+Database& Database::instance() {
+    static Database db;
+    return db;
+}
+
+Database::Database() {
+    storage_ = std::make_unique<Storage>(makeStorage("recruitment.db"));
+    storage_->sync_schema();
+}
+
+Storage& Database::storage() { return *storage_; }
