@@ -35,7 +35,9 @@ SOURCES += main.cpp \
     repositories/JobPostingRepository.cpp \
     repositories/ApplicationRepository.cpp \
     repositories/InterviewRepository.cpp \
+    repositories/SampleData.cpp \
     views/MainWindow.cpp \
+    dialogs/NewCompanyDialog.cpp \
     dialogs/NewCandidateDialog.cpp \
     dialogs/NewJobPostingDialog.cpp \
     dialogs/ApplyDialog.cpp \
@@ -76,7 +78,9 @@ HEADERS += \
     repositories/JobPostingRepository.h \
     repositories/ApplicationRepository.h \
     repositories/InterviewRepository.h \
+    repositories/SampleData.h \
     views/MainWindow.h \
+    dialogs/NewCompanyDialog.h \
     dialogs/NewCandidateDialog.h \
     dialogs/NewJobPostingDialog.h \
     dialogs/ApplyDialog.h \

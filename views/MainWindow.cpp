@@ -12,6 +12,7 @@
 #include <QStatusBar>
 #include <QMessageBox>
 
+#include "../dialogs/NewCompanyDialog.h"
 #include "../dialogs/NewCandidateDialog.h"
 #include "../dialogs/NewJobPostingDialog.h"
 #include "../dialogs/ApplyDialog.h"
@@ -36,6 +37,7 @@
 #include "../repositories/JobPostingRepository.h"
 #include "../repositories/ApplicationRepository.h"
 #include "../repositories/InterviewRepository.h"
+#include "../repositories/SampleData.h"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setWindowTitle("Recruitment Manager");
@@ -49,6 +51,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     QAction* exitAction = fileMenu->addAction("Exit");
 
     QMenu* dataMenu = menuBar()->addMenu("Data");
+    QAction* newCompanyAction     = dataMenu->addAction("New Company");
     QAction* newCandidateAction   = dataMenu->addAction("New Candidate");
     QAction* newJobPostingAction  = dataMenu->addAction("New Job Posting");
     QAction* applyAction          = dataMenu->addAction("Apply");
@@ -96,6 +99,17 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     connect(loadAction, &QAction::triggered, this, &MainWindow::onLoad);
     connect(exitAction, &QAction::triggered, &QApplication::quit);
 
+    connect(newCompanyAction, &QAction::triggered, this, [this]() {
+        NewCompanyDialog dlg(this);
+        if (dlg.exec() == QDialog::Accepted) {
+            static int nextId = 500;
+            new Company(nextId++, dlg.getName(),
+                        Address{dlg.getStreet(), dlg.getCity(), dlg.getCountry()},
+                        dlg.getIndustry());
+            statusBar()->showMessage(
+                QString("Company '%1' added").arg(QString::fromStdString(dlg.getName())));
+        }
+    });
     connect(newCandidateAction, &QAction::triggered, this, [this]() {
         NewCandidateDialog dlg(this);
         if (dlg.exec() == QDialog::Accepted) {
@@ -189,7 +203,19 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
         QMessageBox::about(this, "About", "Recruitment Manager\nMAS Final Project");
     });
 
-    // Populate initial job list
+    // Restore persisted data; fall back to demo data on first run.
+    CompanyRepository::loadAll();
+    RecruiterRepository::loadAll();
+    CandidateRepository::loadAll();
+    CandidateRepository::loadSkills();
+    CandidateRepository::loadPortfolios();
+    CandidateRepository::loadCVDocuments();
+    JobPostingRepository::loadAll();
+    ApplicationRepository::loadAll();
+    InterviewRepository::loadAll();
+    RecruiterRepository::loadLinks();
+    SampleData::seedIfEmpty();
+
     refreshJobList();
 }
 
@@ -239,6 +265,8 @@ void MainWindow::onSave() {
     RecruiterRepository::saveAll();
     CandidateRepository::saveAll();
     CandidateRepository::saveSkills();
+    CandidateRepository::savePortfolios();
+    CandidateRepository::saveCVDocuments();
     JobPostingRepository::saveAll();
     ApplicationRepository::saveAll();
     InterviewRepository::saveAll();
@@ -252,6 +280,8 @@ void MainWindow::onLoad() {
     RecruiterRepository::loadAll();
     CandidateRepository::loadAll();
     CandidateRepository::loadSkills();
+    CandidateRepository::loadPortfolios();
+    CandidateRepository::loadCVDocuments();
     JobPostingRepository::loadAll();
     ApplicationRepository::loadAll();
     InterviewRepository::loadAll();

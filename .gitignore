@@ -20,6 +20,9 @@ RecruitmentManager
 debug/
 release/
 
+# Runtime database
+*.db
+
 # IDE / tooling
 .mcp.json
 .vscode/

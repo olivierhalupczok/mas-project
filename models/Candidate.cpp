@@ -52,3 +52,9 @@ std::string Candidate::getNextAction() const {
 
 void Candidate::addApplication(Application* app) { applications_.push_back(app); }
 const std::vector<Application*>& Candidate::getApplications() const { return applications_; }
+
+void Candidate::addPortfolioEntry(PortfolioEntry* entry) { portfolio_.push_back(entry); }
+const std::vector<PortfolioEntry*>& Candidate::getPortfolioEntries() const { return portfolio_; }
+
+void Candidate::addCVDocument(CVDocument* doc) { cvDocuments_.push_back(doc); }
+const std::vector<CVDocument*>& Candidate::getCVDocuments() const { return cvDocuments_; }

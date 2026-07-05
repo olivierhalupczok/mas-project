@@ -5,6 +5,8 @@
 
 class Skill;
 class Application;
+class PortfolioEntry;
+class CVDocument;
 
 // Class with extension: Candidate tracks all instances in a static vector.
 class Candidate {
@@ -44,6 +46,12 @@ public:
     void addApplication(Application* app);
     const std::vector<Application*>& getApplications() const;
 
+    void addPortfolioEntry(PortfolioEntry* entry);
+    const std::vector<PortfolioEntry*>& getPortfolioEntries() const;
+
+    void addCVDocument(CVDocument* doc);
+    const std::vector<CVDocument*>& getCVDocuments() const;
+
 private:
     int         id_;
     std::string name_;
@@ -51,8 +59,10 @@ private:
     std::string phone_;
 
     ApplicationState*         state_ = nullptr;
-    std::vector<Skill*>       skills_;        // repeatable attribute
+    std::vector<Skill*>       skills_;
     std::vector<Application*> applications_;
+    std::vector<PortfolioEntry*> portfolio_;
+    std::vector<CVDocument*>     cvDocuments_;
 
     static std::vector<Candidate*> extent_;
 };
