@@ -12,15 +12,20 @@
 #include <QStatusBar>
 #include <QMessageBox>
 
-// TODO: include dialogs
-// #include "dialogs/NewCandidateDialog.h"
-// #include "dialogs/NewJobPostingDialog.h"
-// #include "dialogs/ApplyDialog.h"
-// #include "dialogs/AdvanceStatusDialog.h"
+#include "../dialogs/NewCandidateDialog.h"
+#include "../dialogs/NewJobPostingDialog.h"
+#include "../dialogs/ApplyDialog.h"
+#include "../dialogs/AdvanceStatusDialog.h"
 
 #include "../models/JobPosting.h"
 #include "../models/Application.h"
 #include "../models/Candidate.h"
+#include "../models/Company.h"
+#include "../models/ApplicationState.h"
+#include "../models/AppliedState.h"
+#include "../models/InterviewingState.h"
+#include "../models/HiredState.h"
+#include "../models/RejectedState.h"
 
 #include "../repositories/CompanyRepository.h"
 #include "../repositories/RecruiterRepository.h"
@@ -89,21 +94,69 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     connect(exitAction, &QAction::triggered, &QApplication::quit);
 
     connect(newCandidateAction, &QAction::triggered, this, [this]() {
-        QMessageBox::information(this, "TODO", "Dialog not yet implemented");
+        NewCandidateDialog dlg(this);
+        if (dlg.exec() == QDialog::Accepted) {
+            static int nextId = 1000;
+            new Candidate(nextId++, dlg.getName(), dlg.getEmail(), dlg.getPhone());
+            statusBar()->showMessage("Candidate added");
+        }
     });
     connect(newJobPostingAction, &QAction::triggered, this, [this]() {
-        QMessageBox::information(this, "TODO", "Dialog not yet implemented");
+        if (Company::getExtent().empty()) {
+            QMessageBox::warning(this, "No Companies", "Add a company first.");
+            return;
+        }
+        NewJobPostingDialog dlg(this);
+        if (dlg.exec() == QDialog::Accepted) {
+            static int nextId = 2000;
+            Company* company = Company::getExtent()[dlg.getCompanyIndex()];
+            std::optional<SalaryRange> salary;
+            if (dlg.hasSalary())
+                salary = SalaryRange{dlg.getSalaryMin(), dlg.getSalaryMax()};
+            auto* jp = new JobPosting(nextId++, dlg.getTitle(), dlg.getDescription(), company, salary);
+            refreshJobList();
+            statusBar()->showMessage(QString("Job posting '%1' added").arg(QString::fromStdString(jp->getTitle())));
+        }
     });
     connect(applyAction, &QAction::triggered, this, [this]() {
-        QMessageBox::information(this, "TODO", "Dialog not yet implemented");
+        if (Candidate::getExtent().empty() || JobPosting::getExtent().empty()) {
+            QMessageBox::warning(this, "Missing data", "Need at least one candidate and one job posting.");
+            return;
+        }
+        ApplyDialog dlg(this);
+        if (dlg.exec() == QDialog::Accepted) {
+            static int nextId = 3000;
+            Candidate*  c  = Candidate::getExtent()[dlg.getCandidateIndex()];
+            JobPosting* jp = JobPosting::getExtent()[dlg.getJobPostingIndex()];
+            std::optional<std::string> cover;
+            if (!dlg.getCoverLetter().empty())
+                cover = dlg.getCoverLetter();
+            new Application(nextId++, c, jp, dlg.getAppliedAt(), cover);
+            statusBar()->showMessage("Application submitted");
+        }
     });
     connect(advanceStatusAction, &QAction::triggered, this, [this]() {
-        QMessageBox::information(this, "TODO", "Dialog not yet implemented");
+        if (Candidate::getExtent().empty()) {
+            QMessageBox::warning(this, "No Candidates", "No candidates exist.");
+            return;
+        }
+        AdvanceStatusDialog dlg(this);
+        if (dlg.exec() == QDialog::Accepted) {
+            Candidate* c = Candidate::getExtent()[dlg.getCandidateIndex()];
+            const std::string newStatus = dlg.getNewStatus();
+            ApplicationState* state = nullptr;
+            if (newStatus == "Applied")           state = new AppliedState();
+            else if (newStatus == "Interviewing") state = new InterviewingState();
+            else if (newStatus == "Hired")        state = new HiredState();
+            else if (newStatus == "Rejected")     state = new RejectedState();
+            if (state) c->setState(state);
+            statusBar()->showMessage(QString::fromStdString(c->getName() + " -> " + newStatus));
+            int row = jobList_->currentRow();
+            if (row >= 0) onJobSelected(row);
+        }
     });
 
-    connect(newPostingBtn_, &QPushButton::clicked, this, [this]() {
-        QMessageBox::information(this, "TODO", "Dialog not yet implemented");
-    });
+    connect(newPostingBtn_, &QPushButton::clicked, newJobPostingAction, &QAction::trigger);
     connect(viewCvBtn_, &QPushButton::clicked, this, [this]() {
         QMessageBox::information(this, "View CV", "CV viewer not yet implemented");
     });
