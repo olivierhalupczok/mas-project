@@ -16,6 +16,9 @@
 #include "../dialogs/NewJobPostingDialog.h"
 #include "../dialogs/ApplyDialog.h"
 #include "../dialogs/AdvanceStatusDialog.h"
+#include "../dialogs/ViewCVDialog.h"
+#include "../dialogs/ScheduleInterviewDialog.h"
+#include "../models/Interview.h"
 
 #include "../models/JobPosting.h"
 #include "../models/Application.h"
@@ -158,10 +161,28 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
     connect(newPostingBtn_, &QPushButton::clicked, newJobPostingAction, &QAction::trigger);
     connect(viewCvBtn_, &QPushButton::clicked, this, [this]() {
-        QMessageBox::information(this, "View CV", "CV viewer not yet implemented");
+        int row = applicantList_->currentRow();
+        if (row < 0 || row >= static_cast<int>(applications_.size())) {
+            QMessageBox::information(this, "View CV", "Select an applicant first.");
+            return;
+        }
+        Candidate* c = applications_[row]->getCandidate();
+        ViewCVDialog dlg(c, this);
+        dlg.exec();
     });
     connect(scheduleInterviewBtn_, &QPushButton::clicked, this, [this]() {
-        QMessageBox::information(this, "Schedule Interview", "Interview scheduler not yet implemented");
+        int row = applicantList_->currentRow();
+        if (row < 0 || row >= static_cast<int>(applications_.size())) {
+            QMessageBox::information(this, "Schedule Interview", "Select an applicant first.");
+            return;
+        }
+        ScheduleInterviewDialog dlg(applications_[row], this);
+        if (dlg.exec() == QDialog::Accepted) {
+            static int nextId = 4000;
+            new Interview(nextId++, applications_[row],
+                          dlg.getScheduledAt(), dlg.getLocation(), dlg.getNotes());
+            statusBar()->showMessage("Interview scheduled");
+        }
     });
 
     connect(aboutAction, &QAction::triggered, this, [this]() {

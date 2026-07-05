@@ -20,7 +20,8 @@ RecruitmentManager
 debug/
 release/
 
-# IDE
+# IDE / tooling
+.mcp.json
 .vscode/
 .idea/
 *.swp

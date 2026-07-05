@@ -29,10 +29,14 @@ public:
     const std::vector<CVSection*>& getSections() const;
     void renderAll() const;  // polymorphic dispatch to each section
 
+    static const std::vector<CVDocument*>& getExtent();
+
 private:
     int         id_;
     std::string ownerName_;
     std::string format_;
     std::string language_;
     std::vector<CVSection*> sections_;  // owned parts (composition)
+
+    static std::vector<CVDocument*> extent_;
 };

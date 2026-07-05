@@ -3,12 +3,21 @@
 #include "WorkExperience.h"
 #include "Education.h"
 #include "VolunteerWork.h"
+#include <algorithm>
+
+std::vector<CVDocument*> CVDocument::extent_;
 
 CVDocument::CVDocument(int id, const std::string& ownerName,
                        const std::string& format, const std::string& language)
-    : id_(id), ownerName_(ownerName), format_(format), language_(language) {}
+    : id_(id), ownerName_(ownerName), format_(format), language_(language)
+{
+    extent_.push_back(this);
+}
 
-CVDocument::~CVDocument() { for (auto* s : sections_) delete s; }
+CVDocument::~CVDocument() {
+    extent_.erase(std::remove(extent_.begin(), extent_.end(), this), extent_.end());
+    for (auto* s : sections_) delete s;
+}
 
 int                CVDocument::getId()        const { return id_; }
 const std::string& CVDocument::getOwnerName() const { return ownerName_; }
@@ -42,3 +51,5 @@ void CVDocument::renderAll() const {
     for (const CVSection* s : sections_)
         s->render();  // polymorphic dispatch — correct subclass render() called at runtime
 }
+
+const std::vector<CVDocument*>& CVDocument::getExtent() { return extent_; }

@@ -4,6 +4,7 @@ TARGET = RecruitmentManager
 TEMPLATE = app
 
 INCLUDEPATH += . utils
+LIBS += -lsqlite3
 
 SOURCES += main.cpp \
     models/Candidate.cpp \
@@ -38,7 +39,9 @@ SOURCES += main.cpp \
     dialogs/NewCandidateDialog.cpp \
     dialogs/NewJobPostingDialog.cpp \
     dialogs/ApplyDialog.cpp \
-    dialogs/AdvanceStatusDialog.cpp
+    dialogs/AdvanceStatusDialog.cpp \
+    dialogs/ViewCVDialog.cpp \
+    dialogs/ScheduleInterviewDialog.cpp
 
 HEADERS += \
     models/Candidate.h \
@@ -77,4 +80,6 @@ HEADERS += \
     dialogs/NewCandidateDialog.h \
     dialogs/NewJobPostingDialog.h \
     dialogs/ApplyDialog.h \
-    dialogs/AdvanceStatusDialog.h
+    dialogs/AdvanceStatusDialog.h \
+    dialogs/ViewCVDialog.h \
+    dialogs/ScheduleInterviewDialog.h
