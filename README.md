@@ -17,3 +17,7 @@ qmake Project.pro
 make
 ./RecruitmentManager
 ```
+
+## Github repository
+
+[https://github.com/olivierhalupczok/mas-project](https://github.com/olivierhalupczok/mas-project)
