@@ -1,8 +1,7 @@
 #pragma once
 #include <string>
 
-// First parent class for multiple inheritance.
-// Represents a file that can be attached to a profile (PDF, image, video, etc.).
+// A file attached to a profile (PDF, image, video, etc.).
 class MediaAttachment {
 public:
     MediaAttachment(const std::string& filePath, const std::string& mimeType);
@@ -10,7 +9,7 @@ public:
 
     const std::string& getFilePath() const;
     const std::string& getMimeType() const;
-    virtual std::string getFileInfo() const;    // virtual — allows subclass override
+    virtual std::string getFileInfo() const;
 
 private:
     std::string filePath_;

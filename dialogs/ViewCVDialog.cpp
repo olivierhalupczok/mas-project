@@ -101,7 +101,6 @@ ViewCVDialog::ViewCVDialog(Candidate* candidate, QWidget* parent)
     cvLayout->addWidget(cvTree_);
     layout->addWidget(cvBox);
 
-    // Close button
     buttons_ = new QDialogButtonBox(QDialogButtonBox::Ok, this);
     connect(buttons_, &QDialogButtonBox::accepted, this, &QDialog::accept);
     layout->addWidget(buttons_);

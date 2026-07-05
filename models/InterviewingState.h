@@ -1,8 +1,7 @@
 #pragma once
 #include "ApplicationState.h"
 
-// Concrete state: Candidate has been invited to interview.
-// Assigned via setState() — replaces AppliedState at runtime.
+// Candidate has been invited to interview.
 class InterviewingState : public ApplicationState {
 public:
     std::string getStatusLabel() const override;

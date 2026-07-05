@@ -1,9 +1,7 @@
 #pragma once
 #include <string>
 
-// Second parent class for multiple inheritance.
-// Represents an item that can receive a star rating from reviewers.
-// Completely independent from MediaAttachment — no shared base (no diamond).
+// An item that can receive a star rating from reviewers.
 class RatableItem {
 public:
     RatableItem(int rating, int reviewCount);
@@ -11,9 +9,9 @@ public:
 
     int getRating()      const;
     int getReviewCount() const;
-    virtual std::string getRatingInfo() const;  // virtual — allows subclass override
+    virtual std::string getRatingInfo() const;
 
 private:
-    int rating_;        // 1–5 stars
+    int rating_;
     int reviewCount_;
 };

@@ -1,15 +1,13 @@
 #pragma once
 #include "CVSection.h"
 
-// Disjoint subclass of CVSection.
-// Represents an academic qualification. Disjoint from WorkExperience and VolunteerWork —
-// an Education object is never simultaneously a WorkExperience.
+// An academic qualification entry in a CV.
 class Education : public CVSection {
 public:
     Education(const std::string& title, const std::string& institution,
               const std::string& degree, int graduationYear);
 
-    void render() const override;           // polymorphic override
+    void render() const override;
     std::string getType() const override;
 
     const std::string& getInstitution()  const;

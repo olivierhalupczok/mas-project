@@ -6,9 +6,8 @@
 class Candidate;
 class JobPosting;
 
-// Association with attribute: links Candidate <-> JobPosting.
-// Carries its own data (appliedAt, coverLetter) that belongs to the link, not either end.
-// Constructor automatically sets back-references on both Candidate and JobPosting.
+// Link class between Candidate and JobPosting, holding data that belongs to the
+// link itself. The constructor wires back-references on both ends.
 class Application {
 public:
     Application(int id, Candidate* candidate, JobPosting* jobPosting,
@@ -19,7 +18,7 @@ public:
     Candidate*  getCandidate()                        const;
     JobPosting* getJobPosting()                       const;
     const std::string& getAppliedAt()                 const;
-    const std::optional<std::string>& getCoverLetter() const;  // optional attribute
+    const std::optional<std::string>& getCoverLetter() const;
 
     static const std::vector<Application*>& getExtent();
 

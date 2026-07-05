@@ -49,7 +49,7 @@ const std::vector<CVSection*>& CVDocument::getSections() const { return sections
 
 void CVDocument::renderAll() const {
     for (const CVSection* s : sections_)
-        s->render();  // polymorphic dispatch — correct subclass render() called at runtime
+        s->render();
 }
 
 const std::vector<CVDocument*>& CVDocument::getExtent() { return extent_; }

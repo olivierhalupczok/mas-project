@@ -8,7 +8,7 @@ JobPosting::JobPosting(int id, const std::string& title, const std::string& desc
     : id_(id), title_(title), description_(description),
       company_(company), salaryRange_(salaryRange) {
     extent_.push_back(this);
-    byTitle_[title] = this;   // qualified association: index by title
+    byTitle_[title] = this;
 }
 
 int                JobPosting::getId()          const { return id_; }

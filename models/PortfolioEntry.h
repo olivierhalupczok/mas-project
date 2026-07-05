@@ -3,10 +3,8 @@
 #include "RatableItem.h"
 #include <string>
 
-// Multiple inheritance: PortfolioEntry IS-A MediaAttachment AND IS-A RatableItem.
-// It inherits file-attachment capabilities from MediaAttachment and
-// rating capabilities from RatableItem — two completely independent parent classes.
-// No virtual inheritance needed here: no shared base, no diamond problem.
+// Inherits from two independent parents; no virtual inheritance needed since
+// they share no base, so there is no diamond.
 class PortfolioEntry : public MediaAttachment, public RatableItem {
 public:
     PortfolioEntry(const std::string& projectName,

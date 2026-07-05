@@ -8,7 +8,7 @@
 struct CompanyRecord {
     int id = 0;
     std::string name;
-    std::string street, city, country;  // flattened Address composite
+    std::string street, city, country;
     std::string industry;
 };
 
@@ -24,7 +24,7 @@ struct CandidateRecord {
     std::string name;
     std::string email;
     std::string phone;
-    std::string status;  // ApplicationState label
+    std::string status;
 };
 
 struct JobPostingRecord {

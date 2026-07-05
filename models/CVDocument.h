@@ -4,9 +4,8 @@
 
 class CVSection;
 
-// Composition: CVDocument owns its CVSections.
-// Sections are created via factory methods — they cannot be constructed independently.
-// format and language are plain string attributes (multi-aspect hierarchy dropped).
+// Owns its CVSections: they can only be created through the factory methods
+// below, never independently, so their lifetime is tied to the document.
 class CVDocument {
 public:
     CVDocument(int id, const std::string& ownerName,
@@ -18,7 +17,6 @@ public:
     const std::string& getFormat()    const;
     const std::string& getLanguage()  const;
 
-    // Factory methods enforce composition: sections belong to this document.
     CVSection* addWorkExperience(const std::string& title, const std::string& company,
                                   const std::string& period, const std::string& description);
     CVSection* addEducation(const std::string& title, const std::string& institution,
@@ -27,7 +25,7 @@ public:
                                  const std::string& cause);
 
     const std::vector<CVSection*>& getSections() const;
-    void renderAll() const;  // polymorphic dispatch to each section
+    void renderAll() const;
 
     static const std::vector<CVDocument*>& getExtent();
 
@@ -36,7 +34,7 @@ private:
     std::string ownerName_;
     std::string format_;
     std::string language_;
-    std::vector<CVSection*> sections_;  // owned parts (composition)
+    std::vector<CVSection*> sections_;
 
     static std::vector<CVDocument*> extent_;
 };

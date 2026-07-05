@@ -10,8 +10,8 @@ Application::Application(int id, Candidate* candidate, JobPosting* jobPosting,
     : id_(id), candidate_(candidate), jobPosting_(jobPosting),
       appliedAt_(appliedAt), coverLetter_(coverLetter) {
     extent_.push_back(this);
-    candidate_->addApplication(this);   // automatic back-reference
-    jobPosting_->addApplication(this);  // automatic back-reference
+    candidate_->addApplication(this);
+    jobPosting_->addApplication(this);
 }
 
 int                Application::getId()         const { return id_; }

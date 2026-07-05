@@ -21,7 +21,6 @@ ScheduleInterviewDialog::ScheduleInterviewDialog(Application* application, QWidg
 
     QVBoxLayout* outer = new QVBoxLayout(this);
 
-    // Info label
     QString info = QString("Candidate: <b>%1</b>  →  %2")
         .arg(QString::fromStdString(application->getCandidate()->getName()))
         .arg(QString::fromStdString(application->getJobPosting()->getTitle()));

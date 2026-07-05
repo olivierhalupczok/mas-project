@@ -1,9 +1,7 @@
 #pragma once
 #include <string>
 
-// Interface (pure abstract class) for the soft dimension of a skill.
-// A Skill can optionally hold a SoftSkillRole that implements this interface.
-// Used for overlapping subclasses: a Skill can be ISoft AND ITechnical simultaneously.
+// Soft dimension of a skill; a Skill may implement this and ITechnical at once.
 class ISoft {
 public:
     virtual ~ISoft() = default;

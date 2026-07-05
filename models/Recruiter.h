@@ -4,7 +4,7 @@
 
 class Candidate;
 
-// Binary association 1..*: one Recruiter manages many Candidates.
+// One Recruiter manages many Candidates.
 class Recruiter {
 public:
     Recruiter(int id, const std::string& name, const std::string& email);
@@ -13,7 +13,6 @@ public:
     const std::string& getName()  const;
     const std::string& getEmail() const;
 
-    // Method overloading: assign by existing object or by creating inline.
     void assign(Candidate* candidate);
     void assign(const std::string& name, const std::string& email, const std::string& phone);
 

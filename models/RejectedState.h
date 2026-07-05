@@ -1,8 +1,7 @@
 #pragma once
 #include "ApplicationState.h"
 
-// Concrete state: application was unsuccessful.
-// Demonstrates the alternative terminal transition from InterviewingState.
+// Application was unsuccessful (terminal state).
 class RejectedState : public ApplicationState {
 public:
     std::string getStatusLabel() const override;

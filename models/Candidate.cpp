@@ -27,7 +27,6 @@ Candidate* Candidate::findByName(const std::string& name) {
     return it != extent_.end() ? *it : nullptr;
 }
 
-// Derived attribute: computed, never stored.
 int Candidate::getApplicationCount() const {
     return static_cast<int>(applications_.size());
 }

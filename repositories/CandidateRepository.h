@@ -8,7 +8,6 @@ public:
     static void loadSkills();
     static void savePortfolios();
     static void loadPortfolios();
-    // Note: CVDocuments owned by candidates — handled in CandidateRepository
     static void saveCVDocuments();
     static void loadCVDocuments();
 };

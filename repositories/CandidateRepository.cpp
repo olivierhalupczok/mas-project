@@ -62,9 +62,6 @@ void CandidateRepository::saveSkills() {
             r.isTechnical      = s->isTechnical() ? 1 : 0;
             r.isSoft           = s->isSoft()       ? 1 : 0;
             r.candidateId      = c->getId();
-            // store categories via role if available
-            // (ITechnical/ISoft don't expose category from Skill directly;
-            //  SkillRecord has optional fields for them)
             db.replace(r);
         }
     }

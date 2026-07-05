@@ -7,7 +7,6 @@
 class Application;
 class Company;
 
-// Optional composite attribute: salary range may be absent.
 struct SalaryRange {
     double min;
     double max;
@@ -23,13 +22,13 @@ public:
     const std::string& getTitle()         const;
     const std::string& getDescription()   const;
     Company* getCompany()                 const;
-    const std::optional<SalaryRange>& getSalaryRange() const;  // optional attribute
+    const std::optional<SalaryRange>& getSalaryRange() const;
 
     void addApplication(Application* app);
     const std::vector<Application*>& getApplications() const;
 
     static const std::vector<JobPosting*>& getExtent();
-    // Qualified association: find a posting by title key.
+    // Qualified association: looks up a posting by its title key.
     static JobPosting* findByTitle(const std::string& title);
 
 private:
@@ -37,10 +36,10 @@ private:
     std::string title_;
     std::string description_;
     Company*    company_;
-    std::optional<SalaryRange> salaryRange_;   // optional composite attribute
+    std::optional<SalaryRange> salaryRange_;
 
     std::vector<Application*> applications_;
 
     static std::vector<JobPosting*>           extent_;
-    static std::map<std::string, JobPosting*> byTitle_;  // qualified association index
+    static std::map<std::string, JobPosting*> byTitle_;
 };
